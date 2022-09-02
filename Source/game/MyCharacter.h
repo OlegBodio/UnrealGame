@@ -10,8 +10,6 @@
 #include "Animation/AnimInstance.h"
 #include "Kismet/GameplayStatics.h"
 
-#include "gameGameMode.h"
-
 #include "MyCharacter.generated.h"
 
 UCLASS()
