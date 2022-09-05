@@ -5,7 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "SphereToSpawn.h"
 
-void ANewGameMode::MyResetLevel()
+void ANewGameMode::MyResetLevel()//Reset level
 {
 	UGameplayStatics::OpenLevel(GetWorld(), "Map2");//(FName)GetWorld()->GetMapName() потрібно створити папку з мапами в іншому місці і
 	//тоді при проходженні різних левелів буде респавнитись саме потрібний девел
