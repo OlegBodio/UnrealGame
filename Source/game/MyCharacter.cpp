@@ -52,7 +52,7 @@ void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	GunMesh->AttachToComponent(HandsMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale,
-		TEXT("GripPoint"));
+		TEXT("GripPoint"));//adds gun mesh to hands mesh
 
 	World = GetWorld();
 	AnimInstance = HandsMesh->GetAnimInstance();
@@ -67,7 +67,7 @@ void AMyCharacter::Tick(float DeltaTime)
 }
 
 // Called to bind functionality to input
-void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)//Setting player controll
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
@@ -140,26 +140,16 @@ void AMyCharacter::lookAtRate(float rate)
 
 
 
-void AMyCharacter::DestroySphere()
-{
-	TArray<AActor*> FoundActors;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASphereToSpawn::StaticClass(), FoundActors);
-	for (AActor* ActorFound : FoundActors)
-	{
-		ActorFound->Destroy();
-	}
-}
-
 void AMyCharacter::TakeDamage(float Value)
 {
-	HP -= Value;
+	HP -= Value;//reduse HP
 
-	if (HP <= 0.0f)
+	if (HP <= 0.0f)// if HP is over
 	{
-		ANewGameMode* GameMode = Cast<ANewGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+		ANewGameMode* GameMode = Cast<ANewGameMode>(UGameplayStatics::GetGameMode(GetWorld()));//get Game mode
 		if (GameMode)
 		{
-			GameMode->MyResetLevel();
+			GameMode->MyResetLevel();// Reset level
 		}
 	}
 }

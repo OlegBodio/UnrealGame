@@ -24,29 +24,31 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
-		void NormalizeCollisionSphere();
+		void NormalizeCollisionSphere();// This method is described in SphereToSpawn.cpp
 
-		static void IncreaseSpeed();
-
-	UFUNCTION()
-		void Move(float DeltaTime);
+		static void IncreaseSpeed();// This method makes sphere to move faster
 
 	UFUNCTION()
-		static void SetSpeed(float Value = 150.0f);
+		void Move(float DeltaTime);// this function moves sphere in world
+
+	UFUNCTION()
+		static void SetSpeed(float Value = 150.0f);// Sets speed of moving sphere in world
 
 protected:
 
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
 		class USphereComponent* CollisionSphere;
 
-		static float SphereSize;
+		static float SphereSize;// This is static variable that contains size of collision sphere
 
-		static float Speed;
+		static float Speed;// This is static variable that contains speed of sphere moving
+
+		static float SpeedLimit;// This is static variable that contains speed limit of sphere moving
 
 	UFUNCTION()
 		void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor,
 			UPrimitiveComponent* OtherComponent, int32 OtherBoduIndex,
-			bool bFromSweep, const FHitResult& Hit);
+			bool bFromSweep, const FHitResult& Hit);//this function works when sphere collides with any objects
 	
 
 };

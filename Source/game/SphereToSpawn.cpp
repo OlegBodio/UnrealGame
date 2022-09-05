@@ -19,7 +19,7 @@ ASphereToSpawn::ASphereToSpawn()
 
 	RootComponent = CollisionSphere;
 
-	CollisionSphere->SetSimulatePhysics(true);
+	CollisionSphere->SetSimulatePhysics(false);
 	CollisionSphere->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 
 	CollisionSphere->SetSphereRadius(SphereSize + 80);
@@ -30,42 +30,45 @@ ASphereToSpawn::ASphereToSpawn()
 void ASphereToSpawn::BeginPlay()
 {
 	Super::BeginPlay();
-	CollisionSphere->OnComponentBeginOverlap.AddDynamic(this, &ASphereToSpawn::OnHit);
+	CollisionSphere->OnComponentBeginOverlap.AddDynamic(this, &ASphereToSpawn::OnHit);// When sphere hits a player will be called OnHit method
 }
 
 // Called every frame
 void ASphereToSpawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	Move(DeltaTime);
+	Move(DeltaTime);// Sphere moves to player
 }
 
-float ASphereToSpawn::SphereSize = 16.0f;
+float ASphereToSpawn::SphereSize = 16.0f;//default size of sphere
 
-float ASphereToSpawn::Speed = 150.0f;
+float ASphereToSpawn::Speed = 150.0f;//default speed of sphere
+
+float ASphereToSpawn::SpeedLimit = 437.0f;//default speed limit of sphere
  
-void ASphereToSpawn::NormalizeCollisionSphere()
+void ASphereToSpawn::NormalizeCollisionSphere()//this method should normallize size of collision sphere, 
+//this is used and described in SphereSpawner.cpp in SpawnSphere function
 {
 	CollisionSphere->SetSphereRadius(SphereSize);
 }
 
-void ASphereToSpawn::IncreaseSpeed()
+void ASphereToSpawn::IncreaseSpeed()//increase speed by 10%
 {
-	if (Speed < 347)
+	if (Speed < SpeedLimit)
 	{
 		Speed += Speed * 0.1;
 	}
 
 }
 
-void ASphereToSpawn::Move(float DeltaTime)
+void ASphereToSpawn::Move(float DeltaTime)//sphere moves to Character every time
 {
-	ACharacter* myCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+	ACharacter* myCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);// Find character in world
 	if (myCharacter)
 	{
-		FVector Dir = (myCharacter->GetActorLocation() - GetActorLocation()).GetSafeNormal();
-		Dir *= (Speed * DeltaTime);
-		SetActorLocation(GetActorLocation() + Dir);
+		FVector Dir = (myCharacter->GetActorLocation() - GetActorLocation()).GetSafeNormal();//set sphere direction of moving
+		Dir *= (Speed * DeltaTime);//set step by delta time and speed
+		SetActorLocation(GetActorLocation() + Dir);// move sphere to mew location
 	}
 }
 
@@ -77,10 +80,11 @@ void ASphereToSpawn::SetSpeed(float Value)
 void ASphereToSpawn::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBoduIndex, bool bFromSweep, const FHitResult& Hit)
 {
 	AMyCharacter* CharacterPtr = Cast<AMyCharacter>(OtherActor);
-	if (CharacterPtr)
+	if (CharacterPtr)// is Sphere hits Character
 	{
-		ASphereSpawner* SphereSpawner = (ASphereSpawner*)(UGameplayStatics::GetActorOfClass(GetWorld(), ASphereSpawner::StaticClass()));
-		CharacterPtr->TakeDamage();
-		SphereSpawner->DestroySphere(this);
+		ASphereSpawner* SphereSpawner = 
+			(ASphereSpawner*)(UGameplayStatics::GetActorOfClass(GetWorld(), ASphereSpawner::StaticClass()));// find sphere spawner in world
+		CharacterPtr->TakeDamage();//Character takes damage
+		SphereSpawner->DestroySphere(this);// Sphere Spawner destroys this sphere and pointer to sphere 
 	}
 }

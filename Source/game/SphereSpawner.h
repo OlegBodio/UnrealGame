@@ -26,7 +26,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
-		void SpawnSphere(int SphereNum = 10, int Distance = 1500);
+		void SpawnSphere(int SphereNum = 10, int Distance = 1500);//method that spawns some count of sphere in some radius around player  
 
 	float AngleAxis;
 
@@ -36,7 +36,7 @@ public:
 	
 
 	UFUNCTION()
-		void DestroySphere(ASphereToSpawn* SpherePtr);
+		void DestroySphere(ASphereToSpawn* SpherePtr);//method that destoys sphere
 
 	
 protected:
@@ -48,20 +48,20 @@ protected:
 		class UBoxComponent* SpawnVolume;
 
 	UPROPERTY(EditDefaultsOnly, Category = WaveParameters)
-		int32 SpheresInWaveNum = 15;
+		int32 SpheresInWaveNum = 15;//count of spheres in some wave. Default 15 spheres in first wave
 
 	UPROPERTY(VisibleAnywhere, Category = WaveParameters)
-		int32 SpheresIn1500 = 0;
+		int32 SpheresIn1500 = 0;// Count sphere in radius 1500
 
 	UPROPERTY(EditDefaultsOnly, Category = SpawnLocation)
-		float SpawnRadius = 2000;
+		float SpawnRadius = 2000;//Redius in which spheres should spawn. Default 2000 in first wave
 
-	void Wave(int SphereNum = 15, float Distance = 2000);
+	void Wave();//Generates new wawe of spheres
 
-	UPROPERTY(VisibleAnywhere, Category = SpawnLocation)
+	UPROPERTY(VisibleAnywhere, Category = SpawnLocation)// Array of pointers to spheres that are in radius 1500 around player 
 		TArray<ASphereToSpawn*> SpheresInWave;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Waves)
-		int WavesNum = 0;
+		int WavesNum = 0;//waves counter
 
 };

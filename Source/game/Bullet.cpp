@@ -23,7 +23,7 @@ ABullet::ABullet()
 
 	BulletMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Bullet Movemennt"));
 	BulletMovement->UpdatedComponent = CollisionSphere;
-	BulletMovement->ProjectileGravityScale = 0.0f;
+	BulletMovement->ProjectileGravityScale = 0.0f;// bullet should ignore physic and move forward only
 	BulletMovement->InitialSpeed = BulletInitialSpeed;
 	BulletMovement->MaxSpeed = BulletMaxSpeed;
 	BulletMovement->bRotationFollowsVelocity = true;
@@ -38,7 +38,7 @@ ABullet::ABullet()
 void ABullet::BeginPlay()
 {
 	Super::BeginPlay();
-	CollisionSphere->OnComponentBeginOverlap.AddDynamic(this, &ABullet::OnHit);
+	CollisionSphere->OnComponentBeginOverlap.AddDynamic(this, &ABullet::OnHit);// When sphere hits a player will be called OnHit method
 }
 
 // Called every frame
@@ -51,13 +51,13 @@ void ABullet::Tick(float DeltaTime)
 void ABullet::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBoduIndex, bool bFromSweep, const FHitResult& Hit)
 {
 	ASphereToSpawn* SpherePtr = Cast<ASphereToSpawn>(OtherActor);
-	if (SpherePtr)
+	if (SpherePtr)// if Bullet hits the sphere
 	{
 		ASphereSpawner* SphereSpawner = (ASphereSpawner*)(UGameplayStatics::GetActorOfClass(GetWorld(), ASphereSpawner::StaticClass()));
-		SphereSpawner->DestroySphere(SpherePtr);
+		SphereSpawner->DestroySphere(SpherePtr);//Call Sphere Spawner to destroy sphere
 		AMyCharacter* MyCharacter = (AMyCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
-		MyCharacter->AddDestroyedSphere();
-		Destroy();
+		MyCharacter->AddDestroyedSphere();//add destoyed sphere to character counter
+		Destroy();// destroy self
 	}
 }
 

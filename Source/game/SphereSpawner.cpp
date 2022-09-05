@@ -34,7 +34,7 @@ void ASphereSpawner::Tick(float DeltaTime)
 
 	if (SpheresInWave.Num() <= (SpheresIn1500 - 10))
 	{
-		Wave(SpheresInWaveNum, SpawnRadius);
+		Wave();
 	}
 }
 
@@ -77,17 +77,17 @@ void ASphereSpawner::DestroySphere(ASphereToSpawn* SpherePtr)
 	SpherePtr->Destroy();
 }
 
-void ASphereSpawner::Wave(int SphereNum, float Distance)
+void ASphereSpawner::Wave()
 {
 	SpheresInWave.Empty();
 	
 	for (int i = 0; i < 10; ++i)
 	{
-		SpawnSphere();
+		SpawnSphere(10, 1500);
 	}
-	for (int i = 0; i < SphereNum - 10; ++i)
+	for (int i = 0; i < SpheresInWaveNum - 10; ++i)
 	{
-		SpawnSphere(SphereNum - 10, Distance);
+		SpawnSphere(SpheresInWaveNum - 10, SpawnRadius);
 	}
 	SpheresIn1500 = SpheresInWave.Num();
 	SpheresInWaveNum = SpheresInWaveNum + SpheresInWaveNum * 0.1;

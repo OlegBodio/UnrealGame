@@ -57,20 +57,19 @@ public:
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		float HP = 100.0f;
+		float HP = 100.0f;// Health points of player
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		int SpheresDestoyedCount = 0;
+		int SpheresDestoyedCount = 0;// Count of destroyed spheres
 
-	void onFire();
+	void onFire();// function is being called when we try to fire
 
-	void moveForward(float value);
-	void moveRight(float value);
+	void moveForward(float value);//moving
+	void moveRight(float value);//moving
 
-	void turnAtRate(float rate);
-	void lookAtRate(float rate);
+	void turnAtRate(float rate);//moving
+	void lookAtRate(float rate);//moving
 
-	void DestroySphere();
 
 	
 
@@ -86,10 +85,10 @@ public:
 		class UAnimMontage* FireAnimation;
 
 	UFUNCTION()
-	void TakeDamage(float Value = 20.0f);
+	void TakeDamage(float Value = 20.0f);// function that deal damage to character
 
 	UFUNCTION()
-		void AddDestroyedSphere();
+		void AddDestroyedSphere();//this function adds destroyed sphere
 
 
 	class UAnimInstance* AnimInstance;
